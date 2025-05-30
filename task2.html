@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Form & To-Do List</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      min-height: 100vh;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0072ff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      padding: 10px;
+      border: 2px solid #0072ff;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+      padding: 12px;
+      background: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .todo-section {
+      margin-top: 40px;
+    }
+
+    .todo-input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    #taskInput {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #0072ff;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button.add-btn {
+      padding: 10px 16px;
+      background: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    li {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #f2f2f2;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li button {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    li button:hover {
+      background: #e60000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contact Form Section -->
+  <div class="container">
+    <h2>📩 Contact Form</h2>
+    <form id="contactForm" onsubmit="return validateForm()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Your name">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="you@example.com">
+
+      <label for="message">Message:</label>
+      <textarea id="message" rows="4" placeholder="Your message..."></textarea>
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+  </div>
+
+  <!-- To-Do List Section -->
+  <div class="container todo-section">
+    <h2>📝 To-Do List</h2>
+    <div class="todo-input-group">
+      <input type="text" id="taskInput" placeholder="Enter a task...">
+      <button onclick="addTask()" class="add-btn">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    // Contact Form Validation
+    function validateForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (name === "" || email === "" || message === "") {
+        alert("All fields are required!");
+        return false;
+      }
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!emailPattern.test(email)) {
+        alert("Enter a valid email address!");
+        return false;
+      }
+
+      alert("Form submitted successfully!");
+      return true;
+    }
+
+    // To-Do List Logic
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+
+      if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.innerHTML = `${taskText} <button onclick="removeTask(this)">Delete</button>`;
+      document.getElementById("taskList").appendChild(li);
+      taskInput.value = "";
+    }
+
+    function removeTask(button) {
+      button.parentElement.remove();
+    }
+  </script>
+
+</body>
+</html>
